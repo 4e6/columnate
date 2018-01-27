@@ -11,7 +11,7 @@
 let
   config = {
     packageOverrides = pkgs: {
-      haskellPackages = pkgs.haskellPackages.override {
+      haskellPackages = pkgs.haskell.packages.ghc822.override {
         overrides = haskellPackagesNew: haskellPackagesOld: {
           columnate = haskellPackagesNew.callPackage ./default.nix { };
         };

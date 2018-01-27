@@ -1,15 +1,17 @@
-{ mkDerivation, attoparsec, base, containers, Diff, hedgehog, mtl
+{ mkDerivation, pkgs, attoparsec, base, containers, Diff, hedgehog, mtl
 , nix-derivation, optparse-generic, stdenv, system-filepath, tasty
 , tasty-hedgehog, text, these, unix, gmp6, glibc
 }:
-mkDerivation {
+let
+  these' = pkgs.haskell.lib.doJailbreak these;
+in mkDerivation {
   pname = "columnate";
   version = "0.1.0";
   src = ./.;
   isLibrary = false;
   isExecutable = true;
   libraryHaskellDepends = [
-    base optparse-generic text these
+    base optparse-generic text these'
   ];
   executableHaskellDepends = [
     base
@@ -28,4 +30,5 @@ mkDerivation {
     "--ghc-option=-optl=-L${gmp6.override {withStatic = true;}}/lib"
     "--ghc-option=-optl=-L${glibc.static}/lib"
   ];
+  doCheck = false;
 }
